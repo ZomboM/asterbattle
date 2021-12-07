@@ -1,32 +1,28 @@
-/*
-var WebSocketClient = require('websocket').client;
-var client = new WebSocketClient();
-*/
-
-const client = new WebSocket('ws://localhost:8080/', 'echo-protocol');
-client.onerror = function() {
-    console.log('Connection Error');
+const client = new WebSocket('ws://localhost:8080/', 'asterbattle');
+client.onerror = () => {
+  console.error('Connection Error');
 };
 
-client.onopen = function() {
-    console.log('WebSocket Client Connected');
+client.onopen = () => {
+  console.log('WebSocket opened');
 
-    function sendNumber() {
-        if (client.readyState === client.OPEN) {
-            var number = Math.round(Math.random() * 0xFFFFFF);
-            client.send(number.toString());
-            setTimeout(sendNumber, 1000);
-        }
+  const sendNumber = () => {
+    if (client.readyState === client.OPEN) {
+      const number = Math.round(Math.random() * 0xFFFFFF);
+      console.log(`Sending ${number}`);
+      client.send(number.toString());
+      setTimeout(sendNumber, 1000);
     }
-    sendNumber();
+  }
+  sendNumber();
 };
 
-client.onclose = function() {
-    console.log('echo-protocol Client Closed');
+client.onclose = () => {
+  console.log('WebSocket closed');
 };
 
-client.onmessage = function(e) {
-    if (typeof e.data === 'string') {
-        console.log("Received: '" + e.data + "'");
-    }
+client.onmessage = msg => {
+  if (typeof msg.data === 'string') {
+    console.log(`Received ${msg.data}`);
+  }
 };
