@@ -1,13 +1,16 @@
 #!/usr/bin/env node
-const WebSocketServer = require('websocket').server;
-const http = require('http');
-const static = require('node-static');
-const file = new static.Server('./public');
+'use strict';
+
+import WebSocket from 'websocket';
+import http from 'http';
+import NodeStatic from 'node-static';
+
+const staticServer = new NodeStatic.Server('./public');
 
 const server = http.createServer((req, res) => {
   console.log(`HTTP request for ${req.url}`);
   req.addListener('end', () => {
-    file.serve(req, res);
+    staticServer.serve(req, res);
   }).resume();
 });
 
@@ -15,7 +18,7 @@ server.listen(8080, () => {
   console.log('Server is listening on port 8080');
 });
 
-wsServer = new WebSocketServer({
+const wsServer = new WebSocket.server({
   httpServer: server,
   autoAcceptConnections: false,
 });
