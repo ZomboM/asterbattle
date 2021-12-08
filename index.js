@@ -25,25 +25,20 @@ const wsServer = new WebSocket.server({
 });
 
 wsServer.on('request', req => {
-  console.log('WebSocket request from ', req.origin);
-  if (!req.requestedProtocols.includes('asterbattle')) {
+  if (!req.requestedProtocols.includes('asterbattle') ||
+      controller.state !== 'init')
+  {
     console.log(`Connection from ${req.origin} rejected.`);
     req.reject();
     return;
   }
 
   const connection = req.accept('asterbattle', req.origin);
-  console.log('Connection accepted.');
+  console.log('New player from ', req.origin);
   const player = controller.addPlayer(connection);
-  // echo any messages received
-  connection.on('message', msg => {
-    if (msg.type === 'utf8') {
-      console.log(`Received ${msg.utf8Data}; echoing`);
-      connection.sendUTF(msg.utf8Data);
-    }
-  });
+
   connection.on('close', (reasonCode, desc) => {
-    console.log(`Client ${connection.remoteAddress} disconnected.`);
+    console.log(`Player ${connection.remoteAddress} disconnected.`);
     controller.removePlayer(player)
   });
 });
