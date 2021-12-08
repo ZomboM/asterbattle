@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-'use strict';
-
 import WebSocket from 'websocket';
 import http from 'http';
 import NodeStatic from 'node-static';
