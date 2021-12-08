@@ -5,7 +5,7 @@ client.onerror = () => {
 
 client.onopen = () => {
   console.log('WebSocket opened');
-
+/*
   const sendNumber = () => {
     if (client.readyState === client.OPEN) {
       const number = Math.round(Math.random() * 0xFFFFFF);
@@ -15,6 +15,7 @@ client.onopen = () => {
     }
   }
   sendNumber();
+*/
 };
 
 client.onclose = () => {
