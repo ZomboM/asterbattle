@@ -2,6 +2,7 @@
 import WebSocket from 'websocket';
 import http from 'http';
 import NodeStatic from 'node-static';
+import {Controller} from './controller.js';
 
 const staticServer = new NodeStatic.Server('./public');
 
@@ -11,6 +12,8 @@ const server = http.createServer((req, res) => {
     staticServer.serve(req, res);
   }).resume();
 });
+
+const controller = new Controller();
 
 server.listen(8080, () => {
   console.log('Server is listening on port 8080');
@@ -31,7 +34,7 @@ wsServer.on('request', req => {
 
   const connection = req.accept('asterbattle', req.origin);
   console.log('Connection accepted.');
-
+  const player = controller.addPlayer(connection);
   // echo any messages received
   connection.on('message', msg => {
     if (msg.type === 'utf8') {
@@ -41,5 +44,6 @@ wsServer.on('request', req => {
   });
   connection.on('close', (reasonCode, desc) => {
     console.log(`Client ${connection.remoteAddress} disconnected.`);
+    controller.removePlayer(player)
   });
 });
