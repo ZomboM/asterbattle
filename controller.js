@@ -1,4 +1,5 @@
 import {Player} from './player.js'
+
 export class Controller {
   constructor() {
     this.state = 'init';
@@ -16,7 +17,6 @@ export class Controller {
     this.updatePlayers();
   }
   updatePlayers() {
-    console.log(`number of players is now ${this.players.size}`);
     this.broadcast({
       players: [...this.players].map(p => [p.name, p.hasVoted]),
     });

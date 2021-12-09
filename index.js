@@ -38,7 +38,7 @@ wsServer.on('request', req => {
   const player = controller.addPlayer(connection);
 
   connection.on('close', (reasonCode, desc) => {
-    console.log(`Player ${connection.remoteAddress} disconnected.`);
+    console.log(`Player from ${req.origin} disconnected.`);
     controller.removePlayer(player)
   });
 });
