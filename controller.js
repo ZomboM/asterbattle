@@ -5,9 +5,8 @@ export class Controller {
     this.players = new Set();
     this.votes = 0;
   }
-
   addPlayer(connection) {
-    const p = new Player(connection);
+    const p = new Player(connection, this);
     this.players.add(p);
     this.updatePlayers();
     return p;
@@ -19,8 +18,7 @@ export class Controller {
   updatePlayers() {
     console.log(`number of players is now ${this.players.size}`);
     this.broadcast({
-      numPlayers: this.players.size,
-      votes: this.votes,
+      players: [...this.players].map(p => [p.name, p.hasVoted]),
     });
   }
   broadcast(msg) {
