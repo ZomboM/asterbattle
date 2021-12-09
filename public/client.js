@@ -22,8 +22,10 @@ client.onclose = () => {
   console.log('WebSocket closed');
 };
 
+const numPlayers = document.getElementById('numPlayers');
+const waitingFor = document.getElementById('waitingFor');
 client.onmessage = msg => {
-  if (typeof msg.data === 'string') {
-    console.log(`Received ${msg.data}`);
-  }
+  const msgObj = JSON.parse(msg.data);
+  numPlayers.textContent = msgObj.numPlayers;
+  waitingFor.textContent = msgObj.numPlayers - msgObj.votes;
 };
