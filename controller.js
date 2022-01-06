@@ -1,4 +1,5 @@
 import {Player} from './player.js'
+
 export class Controller {
   constructor() {
     this.state = 'init';
