@@ -13,6 +13,7 @@ export class Player {
         }
         if (msg.type == 'ready') {
           this.hasVoted = true;
+          this.controller.votes++;
         }
         this.controller.updatePlayers();
       }

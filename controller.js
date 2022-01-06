@@ -13,10 +13,11 @@ export class Controller {
   }
   removePlayer(p) {
     this.players.delete(p);
+    if (p.hasVoted) this.votes--;
     this.updatePlayers();
   }
   updatePlayers() {
-    console.log(`number of players is now ${this.players.size}`);
+    if (this.votes == this.players.size) console.log('aeiou');
     this.broadcast({
       players: [...this.players].map(p => [p.name, p.hasVoted]),
     });
